@@ -9,4 +9,4 @@ def hello(request):
 
 
 def about(request):
-    return HttpResponse("<h3>ABOUT</h3>")
+    return HttpResponse("<h3>ABOU</h3>")
