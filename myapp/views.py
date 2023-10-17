@@ -4,8 +4,10 @@ from django.http import HttpResponse
 # Create your views here.dadsS
 
 
-def hello(request):
-    return HttpResponse("<h3>Hola s</h3>")
+def hello(request, username):
+    return HttpResponse(
+        "<h3>Hello %s</h3>" % username
+    )
 
 
 def about(request):
