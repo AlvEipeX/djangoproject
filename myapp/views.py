@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Create your views here.dads
+# Create your views here.dadsS
 
 
 def hello(request):
