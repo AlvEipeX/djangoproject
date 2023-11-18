@@ -3,17 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from .models import Project, Task
 from django.shortcuts import get_object_or_404
 
-# Create your views here.
-
-
-def home(request):
-    return HttpResponse("<h3>CASA</h3>")
-
-
-def hello(request, username):
-    return HttpResponse(
-        "<h3>Hello %s</h3>" % username
-    )
+# Create your views here.a
 
 
 def about(request):
@@ -28,3 +18,13 @@ def projects(request):
 def tasks(request, id):
     task = get_object_or_404(Task, id=id)
     return HttpResponse('task = %s' % task.title)
+
+
+def home(request):
+    return HttpResponse("<h3>CASA</h3>")
+
+
+def hello(request, username):
+    return HttpResponse(
+        "<h3>Hello %s</h3>" % username
+    )
