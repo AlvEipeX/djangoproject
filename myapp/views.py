@@ -28,9 +28,11 @@ def projects(request):
     })
 
 
-def tasks(request, id):
-    task = get_object_or_404(Task, id=id)
-    return HttpResponse('task = %s' % task.title)
+def tasks(request):
+    tasks = Task.objects.all()
+    return render(request, 'tasks.html', {
+        'tasks': tasks
+    })
 
 
 def hello(request, username):
