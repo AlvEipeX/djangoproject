@@ -1,22 +1,23 @@
+{% extends 'base.html' %} {% block content %}
 <h1>tasks</h1>
 
 {% for task in tasks %}
 
 <div>
-  <h1>{{task.title}}</h1>
+    <h1>{{task.title}}</h1>
 
-  {% if task.done == False %}
-  <p>Tarea pendiente</p>
-  {% else %}
-  <p>Tarea realizada</p>
-  {% endif %}
+    {% if task.done == False %}
+    <p>Tarea pendiente</p>
+    {% else %}
+    <p>Tarea realizada</p>
+    {% endif %}
 
-  <p>{{task.description}}</p>
+    <p>{{task.description}}</p>
 
-  <p>Project: {{task.project.name}}</p>
-  <button>Delete</button>
+    <p>Project: {{task.project.name}}</p>
+    <button>Delete</button>
 
-  <button>✅</button>
+    <button>✅</button>
 </div>
 
-{% endfor %}
+{% endfor %} {% endblock %}
