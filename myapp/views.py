@@ -47,7 +47,5 @@ def create_task(request):
         return redirect('/tasks/')
 
 
-def hello(request, username):
-    return HttpResponse(
-        "<h3>Hello %s</h3>" % username
-    )
+def create_project(request):
+    return render(request, 'create_project.html')
