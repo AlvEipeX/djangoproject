@@ -1,9 +1,6 @@
 {
-    "[python]": {
-        "editor.defaultFormatter": "ms-python.autopep8"
-    },
     "python.formatting.provider": "autopep8",
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "workbench.colorTheme": "Bear Theme",
+    "workbench.colorTheme": "Vapor",
     "editor.wordWrap": "on",
 }
