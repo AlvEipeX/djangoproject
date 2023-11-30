@@ -8,14 +8,17 @@ from .forms import CreateNewProject
 # Create your views here.
 
 
+def login(request):
+    return render(request, "login.html")
+
+
 def home(request):
     title = "Django Course!!"
     return render(request, "index.html", {"title": title})
 
 
 def about(request):
-    username = "al"
-    return render(request, "about.html", {"username": username})
+    return render(request, "about.html")
 
 
 def projects(request):
