@@ -4,12 +4,27 @@ from .models import Project, Task
 from django.shortcuts import get_object_or_404, render, redirect
 from .forms import CreateNewTask
 from .forms import CreateNewProject
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 
-def login(request):
-    return render(request, "login.html")
+def signup(request):
+    if request.method == "GET":
+        return render(request, "signup.html", {"form": UserCreationForm})
+    else:
+        if request.POST["password1"] == request.POST["password2"]:
+            try:
+                user = User.objects.create_user(
+                    username=request.POST["username"], 
+                    password=request.POST["password1"]
+                )
+                user.save()
+                return HttpResponse("Usuario creado")
+            except:
+                return HttpResponse("Error username")
+        return HttpResponse("Passwords not match")
 
 
 def home(request):
