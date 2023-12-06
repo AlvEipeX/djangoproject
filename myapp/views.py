@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from .models import Project, Task
-from django.shortcuts import get_object_or_404, render, redirect
 from .forms import CreateNewTask
 from .forms import CreateNewProject
+from .models import Project, Task
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.db import IntegrityError
 
 # Create your views here.
 
@@ -21,12 +22,13 @@ def signup(request):
                     password=request.POST["password1"],
                 )
                 user.save()
-                return HttpResponse("Usuario creado")
-            except:
+                login(request, user)
+                return redirect("tasks")
+            except IntegrityError:
                 return render(
                     request,
                     "signup.html",
-                    {"form": UserCreationForm, "error": "Usuario y existe"},
+                    {"form": UserCreationForm, "error": "Usuario ya existe"},
                 )
         return render(
             request,
@@ -53,6 +55,10 @@ def projects(request):
 def tasks(request):
     tasks = Task.objects.all()
     return render(request, "tasks.html", {"tasks": tasks})
+
+
+def logout(request):
+    return render(request, "logout.html")
 
 
 def create_task(request):

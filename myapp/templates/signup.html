@@ -1,17 +1,11 @@
-{% load static %}
-<!DOCTYPE html>
+{% extends 'base.html' %} {% block content %}
 
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Sign Up</title>
-    </head>
+{{ error }}
 
-    <body>
-        <form action="/signup/" method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button>Signup</button>
-        </form>
-    </body>
-</html>
+<form action="/signup/" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>Signup</button>
+</form>
+
+{% endblock %}<!-- {% load static %} -->

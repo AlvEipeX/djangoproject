@@ -1,23 +1,49 @@
-<nav>
-    <ul>
-        <li>
-            <a href="/">Home</a>
-        </li>
-        <li>
-            <a href="/projects">Projects</a>
-        </li>
-        <li>
-            <a href="/tasks">Tasks</a>
-        </li>
-        <li>
-            <a href="/about">About</a>
-        </li>
-        <li>
-            <a href="/create_task">Crear task</a>
-        </li>
-        <li>
-            <a href="/create_project">Crear projecto</a>
-        </li>
-</nav>
+<!DOCTYPE html>
 
-{% block content %} {% endblock %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistencia</title>
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/projects">Projects</a>
+            </li>
+            <li>
+                <a href="/tasks">Tasks</a>
+            </li>
+            <li>
+                <a href="/about">About</a>
+            </li>
+            <li>
+                <a href="/create_task">Crear task</a>
+            </li>
+            <li>
+                <a href="/create_project">Crear projecto</a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li>
+                <a href="/logout">Log Out</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="/signup">Sign Up</a>
+            </li>
+            {% endif %}
+
+    </nav>
+    {% block content %} {% endblock %}
+</body>
+
+</html>
