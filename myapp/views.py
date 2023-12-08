@@ -3,9 +3,9 @@ from .forms import CreateNewProject
 from .models import Project, Task
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 
 # Create your views here.
@@ -37,6 +37,26 @@ def signup(request):
         )
 
 
+def signin(request):
+    if request.method == "GET":
+        return render(request, "signin.html", {"form": AuthenticationForm})
+    else:
+        user = authenticate(
+            request,
+            username=request.POST["username"],
+            password=request.POST["password"],
+        )
+        if user is None:
+            return render(
+                request,
+                "signin.html",
+                {"form": AuthenticationForm, "error": "User or Pass incorrect"},
+            )
+        else:
+            login(request, user)
+            return redirect("tasks")
+
+
 def home(request):
     title = "Django Course!!"
     return render(request, "index.html", {"title": title})
@@ -46,19 +66,17 @@ def about(request):
     return render(request, "about.html")
 
 
-def projects(request):
-    """projects = list(Project.objects.values())"""
-    projects = Project.objects.all()
-    return render(request, "projects.html", {"projects": projects})
+def signout(request):
+    logout(request)
+    return redirect("home")
+
+
+""" ------------------------------------------------------------------ """
 
 
 def tasks(request):
     tasks = Task.objects.all()
     return render(request, "tasks.html", {"tasks": tasks})
-
-
-def logout(request):
-    return render(request, "logout.html")
 
 
 def create_task(request):
@@ -71,6 +89,12 @@ def create_task(request):
             project_id=1,
         )
         return redirect("/tasks/")
+
+
+def projects(request):
+    """projects = list(Project.objects.values())"""
+    projects = Project.objects.all()
+    return render(request, "projects.html", {"projects": projects})
 
 
 def create_project(request):

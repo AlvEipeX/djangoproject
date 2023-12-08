@@ -2,6 +2,6 @@
     "python.defaultFormatter": "autopep8",
     "python.formatting.provider": "autopep8",
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "workbench.colorTheme": "Pastel",
+    "workbench.colorTheme": "Noir Rosé Pine Moon Grey",
     "editor.wordWrap": "on"
 }
