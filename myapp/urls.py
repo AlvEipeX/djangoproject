@@ -11,7 +11,8 @@ urlpatterns = [
     path("logout/", views.signout, name="logout"),
     path("about/", views.about),
     path("tasks/", views.tasks, name="tasks"),
-    path("create_task/", views.create_task),
+    path("tasks/<int:task_id>/", views.task_detail, name="task_detail"),
+    path("tasks/create/", views.create_task, name="create_task"),
 ]
 
 if settings.DEBUG:

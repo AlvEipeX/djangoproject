@@ -2,22 +2,20 @@
 <h1>tasks</h1>
 
 {% for task in tasks %}
+<li>
+    <a href="{% url 'task_detail' task.id %}">
+        <h1>{{task.title}}</h1>
 
-<div>
-    <h1>{{task.title}}</h1>
+        <p>{{task.description}}</p>
 
-    {% if task.done == False %}
-    <p>Tarea pendiente</p>
-    {% else %}
-    <p>Tarea realizada</p>
-    {% endif %}
+        <p>User: {{task.user.username}}</p>
 
-    <p>{{task.description}}</p>
-
-    <p>Project: {{task.project.name}}</p>
-    <button>Delete</button>
-
-    <button>✅</button>
-</div>
+        {% if task.important %}
+        <p>Importante</p>
+        {% else %}
+        <p>NO Importante</p>
+        {% endif %}
+    </a>
+</li>
 
 {% endfor %} {% endblock %}

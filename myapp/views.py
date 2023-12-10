@@ -1,4 +1,4 @@
-from .forms import CreateNewTask
+from .forms import TaskForm
 from .forms import CreateNewProject
 from .models import Task
 from django.http import HttpResponse, JsonResponse
@@ -75,17 +75,28 @@ def signout(request):
 
 
 def tasks(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.filter(user=request.user)
     return render(request, "tasks.html", {"tasks": tasks})
+
+
+def task_detail(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    return render(request, "task_detail.html", {"task": task})
 
 
 def create_task(request):
     if request.method == "GET":
-        return render(request, "create_task.html", {"form": CreateNewTask()})
+        return render(request, "create_task.html", {"form": TaskForm})
     else:
-        Task.objects.create(
-            title=request.POST["title"],
-            description=request.POST["description"],
-            project_id=1,
-        )
-        return redirect("/tasks/")
+        try:
+            form = TaskForm(request.POST)
+            new_task = form.save(commit=False)
+            new_task.user = request.user
+            new_task.save()
+            return redirect("tasks")
+        except ValueError:
+            return render(
+                request,
+                "create_task.html",
+                {"form": TaskForm, "error": "Datos no validos"},
+            )
