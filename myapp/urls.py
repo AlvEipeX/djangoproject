@@ -5,16 +5,13 @@ from django.contrib import admin
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
     path("", views.home, name="home"),
     path("signup/", views.signup, name="signup"),
     path("signin/", views.signin, name="signin"),
     path("logout/", views.signout, name="logout"),
     path("about/", views.about),
     path("tasks/", views.tasks, name="tasks"),
-    path("projects/", views.projects),
     path("create_task/", views.create_task),
-    path("create_project/", views.create_project),
 ]
 
 if settings.DEBUG:

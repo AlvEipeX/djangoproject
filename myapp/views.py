@@ -1,6 +1,6 @@
 from .forms import CreateNewTask
 from .forms import CreateNewProject
-from .models import Project, Task
+from .models import Task
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -89,17 +89,3 @@ def create_task(request):
             project_id=1,
         )
         return redirect("/tasks/")
-
-
-def projects(request):
-    """projects = list(Project.objects.values())"""
-    projects = Project.objects.all()
-    return render(request, "projects.html", {"projects": projects})
-
-
-def create_project(request):
-    if request.method == "GET":
-        return render(request, "create_project.html", {"form": CreateNewProject()})
-    else:
-        project = Project.objects.create(name=request.POST["name"])
-        return render(request, "create_project.html", {"form": CreateNewProject()})
