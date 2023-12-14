@@ -52,16 +52,14 @@ def signin(request):
             return render(
                 request,
                 "signin.html",
-                {"form": AuthenticationForm, "error": "User or Pass incorrect"},
+                {
+                    "form": AuthenticationForm,
+                    "error": "Usuario o Password incorrecto(s)",
+                },
             )
         else:
             login(request, user)
             return redirect("tasks")
-
-
-def home(request):
-    title = "Django Course!!"
-    return render(request, "index.html", {"title": title})
 
 
 def about(request):
@@ -71,7 +69,7 @@ def about(request):
 @login_required
 def signout(request):
     logout(request)
-    return redirect("home")
+    return redirect("signin")
 
 
 """ ------------------------------------------------------------------ """
