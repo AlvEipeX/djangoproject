@@ -1,7 +1,6 @@
 from .forms import TaskForm
-from .forms import CreateNewProject
 from .models import Task
-from django.http import HttpResponse, JsonResponse
+from .models import UsuarioPersonalizado
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -19,7 +18,7 @@ def signup(request):
     else:
         if request.POST["password1"] == request.POST["password2"]:
             try:
-                user = User.objects.create_user(
+                user = UsuarioPersonalizado.objects.create_user(
                     username=request.POST["username"],
                     password=request.POST["password1"],
                 )
@@ -49,6 +48,7 @@ def signin(request):
             password=request.POST["password"],
         )
         if user is None:
+            print(request.POST["username"])
             return render(
                 request,
                 "signin.html",
