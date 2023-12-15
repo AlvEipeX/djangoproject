@@ -77,8 +77,9 @@ def signout(request):
 
 @login_required
 def tasks(request):
+    usuario = request.user
     tasks = Task.objects.filter(user=request.user, datecompleted__isnull=True)
-    return render(request, "tasks.html", {"tasks": tasks})
+    return render(request, "tasks.html", {"tasks": tasks, "usuario": usuario})
 
 
 @login_required

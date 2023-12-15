@@ -1,6 +1,18 @@
 {% extends 'base.html' %} {% block content %}
 <h1>tasks</h1>
 
+<button id="miBoton">Mostrar Alerta</button>
+<script>
+
+    document.getElementById('miBoton').addEventListener('click', function () {
+        var usuario = "{{ usuario.username }}";
+        Swal.fire({
+            title: '¡Hola ' + usuario + '!',
+            icon: 'error',
+            confirmButtonText: '¡Entendido!'
+        });
+    });
+</script>
 {% for task in tasks %}
 <li>
     <a href="{% url 'task_detail' task.id %}">
