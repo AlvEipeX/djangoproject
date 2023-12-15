@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html lang="en">
@@ -8,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asistencia</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static '/css/styles.css' %}">
 </head>
 
 <body>
@@ -16,54 +18,87 @@
     <section class="vh-100" style="background-color: #232033;">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col col-xl-8">
+                <div class="col col-xl-8 col-md-9">
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
-                            <div class="col-md-6 col-lg-6 mx-3 d-flex align-items-center">
-                                <form method="POST" action="/signup/">
-                                    {% csrf_token %}
-                                    <div class="d-flex align-items-center mb-3 pb-1 ml-4">
-                                        <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                                        <span class="h1 fw-bold mb-0">Logo</span>
+                            <h3 class="fw-normal mx-4 mb-3 mt-4 pb-3 align-items-center" style="letter-spacing: 1px;">
+                                Registrar empleado
+                            </h3>
+                            {{ error }}
+                            <form method="POST" action="/signup/">
+                                {% csrf_token %}
+                                <div class="row g-0">
+                                    <div class="col-md-4 col-lg-4 ml-md-3">
+
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="text" id="username" name="username"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="username">Usuario</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="password" id="password1" name="password1"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="password1">Password</label>
+                                        </div>
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="password" id="password2" name="password2"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="password2">Verficar password</label>
+                                        </div>
                                     </div>
 
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Registrar empleado
-                                    </h5>
-                                    <div class="form-outline mb-3">
-                                        <input type="text" id="username" name="username"
-                                            class="form-control form-control-lg" />
-                                        <label class="form-label" for="username">Usuario</label>
-                                    </div>
+                                    <div class="col-md-4 col-lg-4">
 
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="password1" name="password1"
-                                            class="form-control form-control-lg" />
-                                        <label class="form-label" for="password1">Password</label>
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="text" id="first_name" name="first_name"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="first_name">Nombre(s)</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="text" id="last_name" name="last_name"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="last_name">Apellidos</label>
+                                        </div>
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="email" id="email" name="email"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="email">Correo electronico</label>
+                                        </div>
                                     </div>
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="password2" name="password2"
-                                            class="form-control form-control-lg" />
-                                        <label class="form-label" for="password2">Repita password</label>
+                                    <div class="col-md-4 col-lg-4">
+
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="date" id="fec_nac" name="fec_nac"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="fec_nac">Fecha de nacimiento</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4 mx-4">
+                                            <input type="number" step="0.01" pattern="\d+(\.\d{2})?" placeholder="0.00"
+                                                name="salario" class="form-control form-control-lg" />
+                                            <label class="form-label" for="salario">Salario Bs.</label>
+                                        </div>
+                                        <div class="form-check mt-3 mb-4 mx-4">
+                                            <input type="checkbox" id="is_superuser" name="is_superuser"
+                                                class="form-check-input">
+                                            <label for="is_superuser" class="form-check-label">Registrar como
+                                                supervisor</label>
+                                        </div>
                                     </div>
-                                    <div class="pt-1 mb-4">
-                                        <button type="submit" class="btn btn-dark btn-lg btn-block"
-                                            type="button">Registrar</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <div class="card-body p-4 p-lg-5 text-black">
-                                    <img src="" alt="login form" class="img-fluid"
-                                        style="border-radius: 1rem 0 0 1rem;" />
                                 </div>
-                            </div>
+                                <div type="submit" class="pt-1 mb-4">
+                                    <button class="centrado"> Registrar
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
 </body>
 
 </html>
