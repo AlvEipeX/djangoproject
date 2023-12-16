@@ -16,9 +16,11 @@ def signup(request):
     if request.method == "GET":
         return render(request, "signup.html", {"form": UserCreationForm})
     else:
-        if request.POST["is_superuser"] == "on":
-            superusuario = True
-        else:
+        print(request.POST)
+        try:
+            if request.POST["is_superuser"] == "on":
+                superusuario = True
+        except:
             superusuario = False
         if request.POST["password1"] == request.POST["password2"]:
             try:
@@ -34,7 +36,7 @@ def signup(request):
                 )
                 user.save()
                 login(request, user)
-                return redirect("tasks")
+                return redirect("signin")
             except IntegrityError:
                 return render(
                     request,
@@ -81,11 +83,25 @@ def signin(request):
             )
         else:
             login(request, user)
-            return redirect("tasks")
+            if user.is_superuser == True:
+                return redirect("control")
+            else:
+                return redirect("marcar")
 
 
 def about(request):
     return render(request, "about.html")
+
+
+@login_required
+def control(request):
+    return render(request, "control.html")
+
+
+@login_required
+def marcar(request):
+    usuario = request.user
+    return render(request, "marcar.html", {"usuario": usuario})
 
 
 @login_required

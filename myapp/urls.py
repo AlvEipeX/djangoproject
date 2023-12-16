@@ -14,6 +14,8 @@ urlpatterns = [
     path("tasks/<int:task_id>/delete", views.delete_task, name="delete_task"),
     path("tasks/create/", views.create_task, name="create_task"),
     path("signup/", views.signup, name="signup"),
+    path("control/", views.control, name="control"),
+    path("marcar/", views.marcar, name="marcar"),
 ]
 
 if settings.DEBUG:

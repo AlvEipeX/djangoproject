@@ -16,6 +16,12 @@ body {
     background-position: center;
 }
 
+.navbar-light .navbar-nav .nav-link {
+    color: #000;
+}
+
+
+
 /* ---------------------------------------------------------------------------------- */
 
 .pushable {
