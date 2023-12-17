@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
+from datetime import datetime
 from django.db import IntegrityError
 
 # Create your views here.
@@ -100,8 +101,9 @@ def control(request):
 
 @login_required
 def marcar(request):
+    ahora = datetime.now()
     usuario = request.user
-    return render(request, "marcar.html", {"usuario": usuario})
+    return render(request, "marcar.html", {"usuario": usuario, "fec_hora": ahora})
 
 
 @login_required
