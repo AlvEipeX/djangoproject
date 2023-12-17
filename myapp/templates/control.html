@@ -1,4 +1,59 @@
 {% extends 'base.html' %} {% block content %}
-<h1>Control de empleados</h1>
+{% load static %}
+<div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+    <!-- The Grid -->
+    <div class="w3-row-padding">
+
+        <!-- Left Column -->
+        <div class="w3-quarter ">
+            <div class="w3-white w3-text-grey w3-card-4 rounded-4">
+                <div class="w3-display-container centrado w3-center ">
+                    <img class="mt-2" src="{% static '/img/avatar2.jpg' %}" style="width:85%" alt="Avatar">
+                </div>
+                <div class="w3-container w3-text-black">
+                    <h2>{{ usuario.first_name }} {{ usuario.last_name }}</h2>
+                </div>
+                <div class="w3-container">
+                    <p><i class="fa fa-user fa-fw w3-margin-right w3-xlarge w3-text-purple  "></i>{{ usuario.username }}
+                    </p>
+                    <p><i class="fa fa-at fa-fw w3-margin-right w3-xlarge w3-text-purple"></i>{{ usuario.email }}</p>
+                    <p><i class="fa fa-calendar fa-fw w3-margin-right w3-xlarge w3-text-purple"></i>{{ usuario.fec_nac}}
+                    </p>
+                    <br>
+
+                </div>
+            </div><br>
+
+        </div>
+
+        <div class="w3-rest">
+            <div class="w3-container w3-card rounded-4">
+                <div class="w3-container w3-center">
+                    <h3 class="w3-text-white"><b>CONTROL DE EMPLEADOS</b></h3>
+                </div>
+            </div>
+            <div class="mt-3 w3-container w3-card w3-white rounded-4">
+                <div class="w3-container">
+
+                    <h5 class="mt-4 mb-4"><b>:{{ respuesta }}</b></h5>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="w3-container w3-deep-purple w3-center w3-margin-top">
+    <br>
+    <p>Find me on social media.</p>
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <i class="fa fa-snapchat w3-hover-opacity"></i>
+    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <i class="fa fa-linkedin w3-hover-opacity"></i>
+    <br><br>
+</footer>
 
 {% endblock %}

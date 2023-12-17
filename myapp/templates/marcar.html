@@ -1,46 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 {% load static %}
 <!-- Page Container -->
-<style>
-    .button {
-        padding: 1em 2em;
-        border: none;
-        border-radius: 5px;
-        font-weight: bold;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        color: #652caf;
-        transition: all 1000ms;
-        font-size: 15px;
-        position: relative;
-        overflow: hidden;
-        outline: 2px solid #652caf;
-    }
-
-    button:hover {
-        color: #ffffff;
-        transform: scale(1.1);
-        outline: 2px solid #51195c;
-        box-shadow: 4px 5px 17px -4px #000000;
-    }
-
-    button::before {
-        content: "";
-        position: absolute;
-        left: -50px;
-        top: 0;
-        width: 0;
-        height: 100%;
-        background-color: #9242aa;
-        transform: skewX(45deg);
-        z-index: -1;
-        transition: width 1000ms;
-    }
-
-    button:hover::before {
-        width: 250%;
-    }
-</style>
 <div class="w3-content w3-margin-top" style="max-width:1400px;">
 
     <!-- The Grid -->
@@ -83,9 +43,11 @@
                         <div class="w3-container w3-center mt-4 mb-4">
                             <form action="/logout/" method="POST">
                                 {% csrf_token %}
-                                <button type="submit" class="button">
-                                    Marcar llegada
-                                </button>
+                                <div class="primero">
+                                    <button type="submit">
+                                        Marcar llegada
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -95,9 +57,11 @@
                         <div class="w3-container w3-center mt-4 mb-4">
                             <form action="/logout/" method="POST">
                                 {% csrf_token %}
-                                <button type="submit" class="button">
-                                    Marcar salida
-                                </button>
+                                <div class="primero">
+                                    <button type="submit">
+                                        Marcar salida
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
