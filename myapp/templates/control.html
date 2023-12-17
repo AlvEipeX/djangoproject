@@ -4,6 +4,13 @@
 
     <!-- The Grid -->
     <div class="w3-row-padding">
+        <div class="w3-rest ">
+            <div class="w3-container w3-card rounded-4">
+                <div class="w3-container w3-center mb-2">
+                    <h3 class="w3-text-white"><b>CONTROL DE EMPLEADOS</b></h3>
+                </div>
+            </div>
+        </div>
 
         <!-- Left Column -->
         <div class="w3-quarter ">
@@ -28,22 +35,64 @@
         </div>
 
         <div class="w3-rest">
-            <div class="w3-container w3-card rounded-4">
-                <div class="w3-container w3-center">
-                    <h3 class="w3-text-white"><b>CONTROL DE EMPLEADOS</b></h3>
-                </div>
-            </div>
-            <div class="mt-3 w3-container w3-card w3-white rounded-4">
+            <div class="w3-container w3-card w3-white rounded-4">
                 <div class="w3-container">
-
-                    <h5 class="mt-4 mb-4"><b>:{{ respuesta }}</b></h5>
-
+                    <div class="mt-2 w3-center">
+                        <button id="exportarBtn" class="btn btn-success btn-lg"> <i
+                                class="fa fa-file-excel-o"></i></button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-light" id="empleados">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido(s)</th>
+                                    <th>Fec. Nacimiento</th>
+                                    <th>Correo</th>
+                                    <th>Salario</th>
+                                    <th>pago/mes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for empleado in empleados %}
+                                <tr>
+                                    <td>{{ empleado.id }}</td>
+                                    <td>{{ empleado.first_name }}</td>
+                                    <td>{{ empleado.last_name }}</td>
+                                    <td>{{ empleado.fec_nac }}</td>
+                                    <td>{{ empleado.email }}</td>
+                                    <td>{{ empleado.salario }}</td>
+                                    <td class="w3-center"><button class="btn btn-outline-dark btn-sm"
+                                            data-empleado-id="{{ empleado.id }}">Calcular</button></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    $(document).ready(function () {
+        $('#empleados').DataTable({
+            "paging": true,
+            "ordering": true,
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json",
+            },
+        });
+        $('#empleados').on('click', '.btn-ver', function () {
+            var Id = $(this).data('empleado-id');
+            window.location.href = '/calcular/' + Id + '/';
+        });
+        $('#exportarBtn').on('click', function () {
+            window.location.href = "{% url 'exportar_excel' %}";
+        });
+    });
+</script>
 <footer class="w3-container w3-deep-purple w3-center w3-margin-top">
     <br>
     <p>Find me on social media.</p>

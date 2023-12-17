@@ -9,6 +9,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from datetime import datetime
 from django.db import IntegrityError
+import pandas as pd
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -97,7 +99,8 @@ def about(request):
 @login_required
 def control(request):
     usuario = request.user
-    return render(request, "control.html", {"usuario": usuario})
+    empleados = UsuarioPersonalizado.objects.filter(is_superuser=False)
+    return render(request, "control.html", {"usuario": usuario, "empleados": empleados})
 
 
 @login_required
@@ -111,6 +114,34 @@ def marcar(request):
 def signout(request):
     logout(request)
     return redirect("signin")
+
+
+@login_required
+def exportar_excel(request):
+    registros = UsuarioPersonalizado.objects.filter(is_superuser=False)
+
+    data = {
+        "id": [],
+        "first_name": [],
+        "last_name": [],
+        "email": [],
+        "fec_nac": [],
+        "salario": [],
+    }
+    for registro in registros:
+        data["id"].append(registro.id)
+        data["first_name"].append(registro.first_name)
+        data["last_name"].append(registro.last_name)
+        data["email"].append(registro.email)
+        data["fec_nac"].append(registro.fec_nac)
+        data["salario"].append(registro.salario)
+
+    df = pd.DataFrame(data)
+    response = HttpResponse(content_type="application/ms-excel")
+    response["Content-Disposition"] = 'attachment; filename="registros.xlsx"'
+    df.to_excel(response, index=False, engine="openpyxl")
+
+    return response
 
 
 """ ------------------------------------------------------------------ """

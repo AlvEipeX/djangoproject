@@ -16,6 +16,7 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("control/", views.control, name="control"),
     path("marcar/", views.marcar, name="marcar"),
+    path("exportar-excel/", views.exportar_excel, name="exportar_excel"),
 ]
 
 if settings.DEBUG:
