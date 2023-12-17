@@ -81,18 +81,24 @@
                 <div class="w3-half">
                     <div class="w3-container w3-card  rounded-4">
                         <div class="w3-container w3-center mt-4 mb-4">
-                            <button href="https://www.ejemplo.com" class="button">
-                                Marcar llegada
-                            </button>
+                            <form action="/logout/" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="button">
+                                    Marcar llegada
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="w3-half">
                     <div class="w3-container w3-card  rounded-4">
                         <div class="w3-container w3-center mt-4 mb-4">
-                            <button type="submit" class="button">
-                                Marcar salida
-                            </button>
+                            <form action="/logout/" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="button">
+                                    Marcar salida
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -96,7 +96,8 @@ def about(request):
 
 @login_required
 def control(request):
-    return render(request, "control.html")
+    usuario = request.user
+    return render(request, "control.html", {"usuario": usuario})
 
 
 @login_required
