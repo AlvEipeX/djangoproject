@@ -119,34 +119,76 @@ def marcar_llegada(request):
     usuario = request.user
     verificacion = diario.objects.filter(fech_reg=fecha_actual, empleado=usuario.id)
     if verificacion.exists():
-        print("Ya existe")
+        mensaje = "\nUsted ya ha registrado su entrada el dia de hoy \n"
     else:
-        print("No existe")
+        if time(5, 0, 0) <= hora_actual <= time(8, 10, 0):
+            tiempo_retraso = False
+            mensaje = (
+                "Bienvenido empleado \n\n Su hora registrada de ingreso es: "
+                + str(hora_format)
+                + "\n\nSu solicitud ha sido registrada correctamente"
+            )
+        else:
+            tiempo_retraso = True
+            mensaje = (
+                "Bienvenido empleado \n\n Su hora registrada de ingreso es: "
+                + str(hora_format)
+                + "\n\nTiempo con retraso registrado"
+            )
+        registro = diario(
+            fech_reg=fecha_actual,
+            hora_in=hora_actual,
+            hora_out="00:00:00",
+            retraso=tiempo_retraso,
+            salida=False,
+            empleado_id=usuario.id,
+        )
+        registro.save()
 
-    if time(5, 0, 0) <= hora_actual <= time(8, 10, 0):
-        tiempo_retraso = False
-        mensaje = (
-            "Bienvenido \nHora registrada de ingreso: "
-            + str(hora_format)
-            + "\nLlegada registrada correctamente"
-        )
-    else:
-        tiempo_retraso = True
-        mensaje = (
-            "Bienvenido empleado \n\n Su hora registrada de ingreso es: "
-            + str(hora_format)
-            + "\n\nTiempo con retraso registrado"
-        )
-    registro = diario(
-        fech_reg=fecha_actual,
-        hora_in=hora_actual,
-        hora_out="00:00:00",
-        retraso=tiempo_retraso,
-        salida=False,
-        empleado_id=usuario.id,
+    return render(
+        request,
+        "marcar.html",
+        {"usuario": usuario, "fec_hora": ahora, "mensaje": mensaje},
     )
 
-    registro.save()
+
+@login_required
+def marcar_salida(request):
+    fecha_actual = timezone.now().date()
+    hora_actual = datetime.now().time()
+    hora_format = hora_actual.strftime("%H:%M:%S")
+    ahora = datetime.now()
+    usuario = request.user
+    verificacion = diario.objects.filter(
+        fech_reg=fecha_actual, empleado=usuario.id, hora_out=time(0, 0, 0)
+    )
+    print(hora_actual)
+    if time(18, 0, 0) <= hora_actual <= time(23, 59, 0):
+        print("Salida correcta")
+    else:
+        print("Salida temprana")
+    if verificacion.exists():
+        diario_obj = diario.objects.get(
+            fech_reg=fecha_actual, empleado=usuario.id, hora_out=time(0, 0, 0)
+        )
+        if time(18, 0, 0) <= hora_actual <= time(23, 59, 0):
+            mensaje = (
+                "Bienvenido empleado \n\n Su hora registrada de salida es: "
+                + str(hora_format)
+                + "\n\nSu solicitud ha sido registrada correctamente"
+            )
+        else:
+            diario_obj.salida = True
+            mensaje = (
+                "Bienvenido empleado \n\n Su hora registrada de salida es: "
+                + str(hora_format)
+                + "\n\nSalida temprana registrada"
+            )
+        diario_obj.hora_out = hora_actual
+        diario_obj.save()
+    else:
+        mensaje = "\nUsted aun no registra su entrada el dia de hoy o su salida ya fue registrada\n"
+
     return render(
         request,
         "marcar.html",

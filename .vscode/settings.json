@@ -2,6 +2,6 @@
     "python.defaultFormatter": "autopep8",
     "python.formatting.provider": "autopep8",
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
-    "workbench.colorTheme": "Visual Studio 2017 Light - C++",
+    "workbench.colorTheme": "After Dark",
     "editor.wordWrap": "on"
 }
