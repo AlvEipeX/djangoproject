@@ -41,7 +41,7 @@
                 <div class="w3-half">
                     <div class="w3-container w3-card  rounded-4">
                         <div class="w3-container w3-center mt-4 mb-4">
-                            <form action="/logout/" method="POST">
+                            <form action="/marcar_llegada/" method="POST">
                                 {% csrf_token %}
                                 <div class="primero">
                                     <button type="submit">
@@ -70,7 +70,7 @@
             <div class="w3-rest mt-3">
                 <div class="w3-container w3-card w3-white rounded-4">
                     <div class="w3-container">
-                        <h5 class="mt-4 mb-4"><b>:{{ respuesta }}</b></h5>
+                        <h5 class="mt-4 mb-4"><b>:{{ mensaje|linebreaks }}</b></h5>
                     </div>
                 </div>
             </div>
@@ -79,8 +79,7 @@
         <div class="w3-quarter">
 
             <div class="w3-container w3-card w3-white w3-margin-bottom rounded-4">
-
-                <div class="card mt-4 mb-4 centrado">
+                <div class="reloj mt-4 mb-4 centrado">
                     <div class="numbers">
                         <span class="number"></span>
                         <span class="number"></span>

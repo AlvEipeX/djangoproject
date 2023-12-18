@@ -12,6 +12,15 @@ class UsuarioPersonalizado(AbstractUser):
         return self.username
 
 
+class diario(models.Model):
+    fech_reg = models.DateField(null=True, blank=True)
+    hora_in = models.TimeField(blank=True)
+    hora_out = models.TimeField(blank=True)
+    retraso = models.BooleanField(default=False)
+    salida = models.BooleanField(default=False)
+    empleado = models.ForeignKey(UsuarioPersonalizado, on_delete=models.CASCADE)
+
+
 class Task(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)

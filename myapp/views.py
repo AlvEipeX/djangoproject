@@ -1,6 +1,5 @@
 from .forms import TaskForm
-from .models import Task
-from .models import UsuarioPersonalizado
+from .models import UsuarioPersonalizado, diario, Task
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -8,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
 from django.utils import timezone
 from datetime import datetime
+from datetime import time
 from django.db import IntegrityError
 import pandas as pd
 from django.http import HttpResponse
@@ -108,6 +108,50 @@ def marcar(request):
     ahora = datetime.now()
     usuario = request.user
     return render(request, "marcar.html", {"usuario": usuario, "fec_hora": ahora})
+
+
+@login_required
+def marcar_llegada(request):
+    fecha_actual = timezone.now().date()
+    hora_actual = datetime.now().time()
+    hora_format = hora_actual.strftime("%H:%M:%S")
+    ahora = datetime.now()
+    usuario = request.user
+    verificacion = diario.objects.filter(fech_reg=fecha_actual, empleado=usuario.id)
+    if verificacion.exists():
+        print("Ya existe")
+    else:
+        print("No existe")
+
+    if time(5, 0, 0) <= hora_actual <= time(8, 10, 0):
+        tiempo_retraso = False
+        mensaje = (
+            "Bienvenido \nHora registrada de ingreso: "
+            + str(hora_format)
+            + "\nLlegada registrada correctamente"
+        )
+    else:
+        tiempo_retraso = True
+        mensaje = (
+            "Bienvenido empleado \n\n Su hora registrada de ingreso es: "
+            + str(hora_format)
+            + "\n\nTiempo con retraso registrado"
+        )
+    registro = diario(
+        fech_reg=fecha_actual,
+        hora_in=hora_actual,
+        hora_out="00:00:00",
+        retraso=tiempo_retraso,
+        salida=False,
+        empleado_id=usuario.id,
+    )
+
+    registro.save()
+    return render(
+        request,
+        "marcar.html",
+        {"usuario": usuario, "fec_hora": ahora, "mensaje": mensaje},
+    )
 
 
 @login_required
