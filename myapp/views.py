@@ -1,5 +1,5 @@
 from .forms import TaskForm
-from .models import UsuarioPersonalizado, diario, Task
+from .models import UsuarioPersonalizado, diario, Task, pagomes
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -11,6 +11,7 @@ from datetime import time
 from django.db import IntegrityError
 import pandas as pd
 from django.http import HttpResponse
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -228,6 +229,82 @@ def exportar_excel(request):
     df.to_excel(response, index=False, engine="openpyxl")
 
     return response
+
+
+@login_required
+def calcular(request, empleado_id):
+    now = timezone.now()
+    primer_dia_del_mes = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    ultimo_dia_del_mes = (now.replace(day=28) + timedelta(days=4)).replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
+    )
+
+    usuario = request.user
+    empleados = UsuarioPersonalizado.objects.filter(is_superuser=False)
+    if request.method == "GET":
+        return render(
+            request, "control.html", {"usuario": usuario, "empleados": empleados}
+        )
+    else:
+        empleado = UsuarioPersonalizado.objects.get(id=empleado_id)
+        reg_retraso = diario.objects.filter(
+            empleado=empleado_id,
+            retraso=True,
+            fech_reg__gte=primer_dia_del_mes,
+            fech_reg__lt=ultimo_dia_del_mes,
+        )
+        retrasos = reg_retraso.count()
+        reg_salida = diario.objects.filter(
+            empleado=empleado_id,
+            salida=True,
+            fech_reg__gte=primer_dia_del_mes,
+            fech_reg__lt=ultimo_dia_del_mes,
+        )
+        salidas = reg_salida.count()
+        print(empleado_id)
+        print(retrasos)
+        print(salidas)
+        descuento = 100 * retrasos + 100 * salidas
+        total = empleado.salario - descuento
+
+        mensaje = (
+            "El empleado "
+            + str(empleado.first_name)
+            + " "
+            + str(empleado.last_name)
+            + " cuenta con un historial de "
+            + str(retrasos)
+            + " retraso(s) y "
+            + str(salidas)
+            + " salida(s) temprana(s) en el presente mes\n\nEsto da como resultado de un descuento de "
+            + str(descuento)
+            + " Bs. que seran retirados del salario mensual del empleado\n\nSalario neto: "
+            + str(empleado.salario)
+            + "\n\nSalario descontado: "
+            + str(total)
+        )
+
+        registro = pagomes(
+            anio_pago=2023,
+            mes_pago=now.month,
+            retrasos=retrasos,
+            salidas=salidas,
+            tot_descento=descuento,
+            empleado_id=empleado_id,
+        )
+        registro.save()
+
+        return render(
+            request,
+            "control.html",
+            {
+                "usuario": usuario,
+                "id": empleado_id,
+                "empleados": empleados,
+                "obj_empleado": empleado,
+                "mensaje": mensaje,
+            },
+        )
 
 
 """ ------------------------------------------------------------------ """

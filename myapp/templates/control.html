@@ -33,7 +33,11 @@
             </div><br>
 
         </div>
-
+        <div class="w3-rest">
+            <div class="mb-2 w3-container w3-card w3-white rounded-4">
+                :{{ mensaje|linebreaks }}
+            </div>
+        </div>
         <div class="w3-rest">
             <div class="w3-container w3-card w3-white rounded-4">
                 <div class="w3-container">
@@ -63,8 +67,13 @@
                                     <td>{{ empleado.fec_nac }}</td>
                                     <td>{{ empleado.email }}</td>
                                     <td>{{ empleado.salario }}</td>
-                                    <td class="w3-center"><button class="btn btn-outline-dark btn-sm"
-                                            data-empleado-id="{{ empleado.id }}">Calcular</button></td>
+                                    <td>
+                                        <form action="{% url 'calcular' empleado.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="w3-center"><button type="submit"
+                                                    class="btn btn-outline-dark btn-sm">Calcular</button></div>
+                                        </form>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -83,10 +92,6 @@
             language: {
                 url: "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json",
             },
-        });
-        $('#empleados').on('click', '.btn-ver', function () {
-            var Id = $(this).data('empleado-id');
-            window.location.href = '/calcular/' + Id + '/';
         });
         $('#exportarBtn').on('click', function () {
             window.location.href = "{% url 'exportar_excel' %}";

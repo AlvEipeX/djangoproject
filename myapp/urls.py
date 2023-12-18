@@ -19,6 +19,7 @@ urlpatterns = [
     path("exportar-excel/", views.exportar_excel, name="exportar_excel"),
     path("marcar_llegada/", views.marcar_llegada, name="marcar_llegada"),
     path("marcar_salida/", views.marcar_salida, name="marcar_salida"),
+    path("calcular/<int:empleado_id>/", views.calcular, name="calcular"),
 ]
 
 if settings.DEBUG:

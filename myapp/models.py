@@ -21,6 +21,17 @@ class diario(models.Model):
     empleado = models.ForeignKey(UsuarioPersonalizado, on_delete=models.CASCADE)
 
 
+class pagomes(models.Model):
+    anio_pago = models.PositiveIntegerField(blank=True)
+    mes_pago = models.PositiveIntegerField(blank=True)
+    retrasos = models.PositiveIntegerField(blank=True)
+    salidas = models.PositiveIntegerField(blank=True)
+    tot_descento = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    empleado = models.ForeignKey(UsuarioPersonalizado, on_delete=models.CASCADE)
+
+
 class Task(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
